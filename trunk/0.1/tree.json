@@ -1,10 +1,5 @@
-<?php
-header("Content-Type: text/json");
-?>
-
 [
    {
-      "id":"O1",
 	  "text":"Ordner 1",
       "leaf":false,
 	  "children":[
@@ -27,5 +22,22 @@ header("Content-Type: text/json");
       "text":"Element 2",
       "leaf":true,
 	  "checked":false
-   }
+   },{
+	  "text":"Ordner 3",
+      "leaf":false,
+	  "children":[
+		{
+			"value":"E3_1",
+			"text":"Element 3.1",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"value":"E3_2",
+			"text":"Element 3.2",
+			"leaf":true,
+			"checked":false
+		}
+	  ]
+   },
 ]
