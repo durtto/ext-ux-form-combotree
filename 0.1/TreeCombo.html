@@ -69,7 +69,8 @@
 						lazyInit:false,
 						loader: new Ext.tree.TreeLoader({
 		                    preloadChildren: false,
-							url:'tree.json.php',
+							url:'tree.json',
+							requestMethod:'GET'
 		                }),
 		                root: new Ext.tree.AsyncTreeNode({	})
 					})

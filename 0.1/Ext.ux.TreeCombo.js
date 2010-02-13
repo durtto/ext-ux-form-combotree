@@ -60,8 +60,7 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 		a=v.split(this.seperator);
 		console.debug(a);
 		
-		// Kinder absuchen und ggf. checken
-		// this.treePanel.getRootNode().eachChild( Function fn, [Object scope], [Array args] ) 
+		//setValueToTree();
 	},
 	
     getValue: function() {
@@ -74,6 +73,18 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 			return this.value;
 		}
     },
+	setValueToTree: function () {
+		// check for tree ist exist
+		if (!this.treePanel) return false;
+		
+		// search all tree-children and check it, when value in this.value
+		// 		this.treePanel.getRootNode().eachChild( Function fn, [Object scope], [Array args] )
+		this.treePanel.getRootNode().eachChild( function (n) {
+			console.debug(n);
+		}, this );  
+		
+		return true;
+	},
 	
 	getValueFromTree: function () {
 		this.ArrVal= new Array();
