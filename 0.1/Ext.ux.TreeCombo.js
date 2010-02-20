@@ -9,10 +9,8 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
         this.readOnly = false;
 		this.isExpanded = false;
 		
-		if (!this.sepperator) {
-                this.sepperator=','
-        }
-		
+		this.sepperator=',';
+        		
         Ext.ux.form.TreeCombo.superclass.initComponent.call(this);
         this.on('specialkey', function(f, e){
             if(e.getKey() == e.ENTER){
@@ -47,20 +45,12 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 		this.getTree().show();
         this.getTree().getEl().alignTo(this.wrap, 'tl-bl?');
 
-		/*
-        if(this.value) {
-            this.getValue();
-        }
-		*/
+		this.setValueToTree();
 	},
 	setValue: function (v) {
 		console.debug('SETVALUE was CALLED!   V: '+v   +'   ID: ' + this.id  + ' - Tree: ' + this.getTree().id);
-
-		var a=new Array();
-		a=v.split(this.seperator);
-		console.debug(a);
-		
-		//setValueToTree();
+		this.value=v;
+		//this.setValueToTree();
 	},
 	
     getValue: function() {
@@ -76,15 +66,43 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 	setValueToTree: function () {
 		// check for tree ist exist
 		if (!this.treePanel) return false;
+
+		// split this.value to array with sepperate value-elements
+		var arrVal=new Array();
+		try {
+			arrVal = this.value.split(this.sepperator);
+		} catch (e) {};
+		
+		// find root-element of treepanel, and expand all childs
+		var node=this.treePanel.getRootNode();
+		node.expandChildNodes(true);
 		
 		// search all tree-children and check it, when value in this.value
-		// 		this.treePanel.getRootNode().eachChild( Function fn, [Object scope], [Array args] )
-		this.treePanel.getRootNode().eachChild( function (n) {
-			console.debug(n);
-		}, this );  
+		node.cascade(function (n) {
+			var nodeCompareVal='';
+			if (Ext.isDefined(n.attributes.value)) {
+				// in node-element a value-property was used
+				nodeCompareVal=String.trim(n.attributes.value);
+			} else {
+				// in node-element can't find a value-property, for compare with this.value will be use node-element.text
+				nodeCompareVal=String.trim(n.attributes.text);
+			}
+			// uncheck node
+			n.getUI().toggleCheck(false);
+			
+			Ext.each(arrVal,function(arrVal_Item) {
+				if (String.trim(arrVal_Item) == nodeCompareVal) {
+					// check node
+					n.getUI().toggleCheck(true);
+					console.debug(n);
+				}
+			},this);
+		},this);
 		
 		return true;
 	},
+	
+	
 	
 	getValueFromTree: function () {
 		this.ArrVal= new Array();
@@ -102,21 +120,7 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 
 		this.value=this.ArrVal.join(this.sepperator);
 		this.valueText=this.ArrDesc.join(this.sepperator);
-		
-		console.info(this.value);
-		console.info(this.valueText);
 		this.setRawValue(this.valueText);
-		
-		//Ext.ux.form.TreeCombo.superclass.setValue(this.value);
-		//Ext.ux.form.TreeCombo.superclass.value=this.value;
-		//Ext.ux.form.TreeCombo.superclass.hiddenValue=this.value;
-	
-		/*
-		var node = this.treePanel.getNodeById(this.value);
-        var path = node.getPath();
-        this.treePanel.expandPath(path);
-        this.treePanel.selectPath(path);
-		*/
 	},
 	
 	validateBlur : function(){
