@@ -9,8 +9,10 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
         this.readOnly = false;
 		this.isExpanded = false;
 		
-		this.sepperator=',';
-        		
+		if (!this.sepperator) {
+                this.sepperator=','
+        }
+        
         Ext.ux.form.TreeCombo.superclass.initComponent.call(this);
         this.on('specialkey', function(f, e){
             if(e.getKey() == e.ENTER){
