@@ -1,15 +1,18 @@
 [
    {
+	  "id":"N1",
 	  "text":"Ordner 1",
       "leaf":false,
 	  "children":[
 		{
+			"id":"N1-1",
 			"value":"E1_1",
 			"text":"Element 1.1",
 			"leaf":true,
 			"checked":false
 		},
 		{
+			"id":"N1-2",
 			"value":"E1_2",
 			"text":"Element 1.2",
 			"leaf":true,
@@ -18,26 +21,30 @@
 	  ]
    },
    {
+   	  "id":"N2",
 	  "value":"E2",
       "text":"Element 2",
       "leaf":true,
 	  "checked":false
    },{
+	  "id":"N3",
 	  "text":"Ordner 3",
       "leaf":false,
 	  "children":[
 		{
+			"id":"N3-1",
 			"value":"E3_1",
 			"text":"Element 3.1",
 			"leaf":true,
 			"checked":false
 		},
 		{
+			"id":"N3-1",
 			"value":"E3_2",
 			"text":"Element 3.2",
 			"leaf":true,
 			"checked":false
 		}
 	  ]
-   },
+   }
 ]

@@ -12,6 +12,7 @@ for ($i=0;$i<5;$i++) {
 	);
 }	
 
+$out["DS"][0]["Val2"]="E2, E3_2";
 
 $out["success"]	= true;
 $out["total"]=$i;
