@@ -1,6 +1,6 @@
 Ext.ns('Ext.ux','Ext.ux.form');
 
-Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
+Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 	id:Ext.id(),
 
     triggerClass: 'x-form-tree-trigger',
@@ -19,17 +19,18 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
                 this.onTriggerClick();
             }
         }, this);
-        this.on('afterrender',function() {
-            this.getTree();
-        });
         this.on('show',function() {
 			console.info('SHOW WAS CALLED!!!!');
 			this.setRawValue('');
-
-			// quick and dirty, but it work... a better solution must be founded!!!!
-			//   bug-> first run do overwrite the value, because tree isn't completed loaded...
-			this.expand();
-			this.collapse();
+			this.getTree();
+			
+			if (this.treePanel.loader.isLoading()) {
+				this.treePanel.loader.on('load',function(c,n) {
+					if (this.setValueToTree()) this.getValueFromTree();
+				},this);
+			} else {
+				if (this.setValueToTree()) this.getValueFromTree();
+			}
 		});
     },
 	
@@ -64,7 +65,7 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 	},
 	
     getValue: function() {
-		console.debug('GETVALUE was CALLED!   ID: ' + this.id + ' - Tree: ' + this.getTree().id);
+		console.debug('GETVALUE was CALLED!   ID: ' + this.id + ' - Value: ' + this.value);
 		//if (this.treePanel) this.getValueFromTree();
 		
         if (!this.value) { 
@@ -106,7 +107,6 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 				if (String.trim(arrVal_Item) == nodeCompareVal) {
 					// check node
 					n.getUI().toggleCheck(true);
-					console.debug(n);
 				}
 			},this);
 		},this);
