@@ -1,0 +1,92 @@
+[
+   {
+	  "id":"N1",
+	  "text":"Ordner 1",
+      "leaf":false,
+	  "children":[
+		{
+			"id":"N1-1",
+			"value":"E1_1",
+			"text":"Element 1.1",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"id":"N1-2",
+			"value":"E1_2",
+			"text":"Element 1.2",
+			"leaf":true,
+			"checked":false
+		}
+	  ]
+   },
+   {
+   	  "id":"N2",
+	  "value":"E2",
+      "text":"Element 2",
+      "leaf":true,
+	  "checked":false
+   },{
+	  "id":"N3",
+	  "text":"Ordner 3",
+      "leaf":false,
+	  "children":[
+		{
+			"id":"N3-1",
+			"value":"E3_1",
+			"text":"Element 3.1",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"id":"N3-2",
+			"value":"E3_2",
+			"text":"Element 3.2",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"id":"N3-3",
+			"value":"E3_3",
+			"text":"Element 3.3",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"id":"N3-4",
+			"value":"E3_4",
+			"text":"Element 3.4",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"id":"N3-5",
+			"value":"E3_5",
+			"text":"Element 3.5",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"id":"N3-6",
+			"value":"E3_6",
+			"text":"Element 3.6",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"id":"N3-7",
+			"value":"E3_7",
+			"text":"Element 3.7",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"id":"N3-8",
+			"value":"E3_8",
+			"text":"Element 3.8",
+			"leaf":false,
+			"children":[ ]
+		}
+	  ]
+   }
+]
