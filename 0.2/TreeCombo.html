@@ -1,0 +1,138 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>TreeComboBox in EditorPanel</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+ 	<script type="text/javascript" src="../../adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../ext-all.js"></script>
+	<script type="text/javascript" src="./Ext.ux.TreeCombo.js"></script>
+    
+	<script type="text/javascript">
+	Ext.onReady(function(){
+	
+		Ext.ns('EX');
+
+
+		// --------------------
+		
+		EX.Proxy = new Ext.data.HttpProxy({
+			api: {
+				read : 'AJAX_select.json.php',
+				create : 'AJAX_insert.json.php',
+				update: 'AJAX_update.json.php',
+				destroy: 'AJAX_delete.json.php'
+			}
+		});
+		
+		EX.Store = new Ext.data.JsonStore({
+			root: 'DS',
+			proxy:EX.Proxy,
+			fields: ['ID','Val1','Val2'],
+			totalProperty: 'total',
+			sccessProperty: 'success',
+			idProperty: 'ID',
+			writer: new Ext.data.JsonWriter({
+				proxy: Ext.Proxy,	    
+				encode: true,
+				writeAllFields: false
+			}),
+			autoSave: true, autoLoad:true
+		}); 
+
+		
+		EX.Grid = new Ext.grid.EditorGridPanel({
+			region: 'center',
+			renderTo: Ext.get('DIV1'),
+			store: EX.Store,
+			columns: [
+				{
+					header: 'ID', 
+					width: 100, 
+					dataIndex: 'ID', 
+					sortable: true
+				},{
+					header: 'Val1', 
+					width: 300, 
+					dataIndex: 'Val1', 
+					sortable: true,
+					editor:new Ext.form.TextField({
+						maxLength:50
+					})
+				},{
+					header: 'Val2', 
+					width: 300, 
+					dataIndex: 'Val2', 
+					sortable: true,
+					editor: new Ext.ux.form.TreeCombo({
+						width: 100,
+						listWidth:220,
+						lazyInit:false,
+						loader: new Ext.tree.TreeLoader({
+		                    preloadChildren: false,
+							url:'tree.json',
+							requestMethod:'GET'
+		                }),
+		                root: new Ext.tree.AsyncTreeNode({	})
+					})
+				}
+				
+			],
+			sm: new Ext.grid.RowSelectionModel({}),
+			autoHeight:true,
+			autoWidth:true
+		});
+	
+	
+	// ----------------------------
+	
+/*     
+
+		EX.treeCombo = new Ext.ux.form.TreeCombo({
+			width: 220,
+			listWidth:220,
+			value:'E2',
+			//lazyInit:false,
+			url:'tree.json.php'
+		});
+		console.debug(EX.treeCombo)
+   
+
+		EX.Form= new Ext.form.FormPanel({
+			autoWidth:true,
+			autoHeight: true,
+			renderTo: Ext.get('DIV2'),
+			items: [
+				new Ext.form.TextField({
+					fieldLabel:'TextField',
+					allowBlank: true
+				}),
+				EX.treeCombo
+			],
+			bbar: [
+				{
+					text:'submit',
+					handler: function() {
+						EX.Form.getForm().submit({
+							url: 'submit.php'
+						});
+					}
+				}
+			]
+		});
+		
+*/	
+	
+	});
+	</script>
+	
+</head>
+<body style='margin:7mm'>
+	<h1>ComboTree in GridEditorPanel</h1>
+	<div id='DIV1' style='width:720px;'> </div>
+	<hr style='margin-top:1cm; margin-bottom:1cm' />
+	<h1>ComboTree in FormPanel</h1>
+	<div id='DIV2' style='width:720px;'> </div>
+	<hr>
+	<div id='DIV3' style='width:720px;'> </div>
+</body>
+</html>
