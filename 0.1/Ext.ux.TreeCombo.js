@@ -21,8 +21,16 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
         }, this);
         this.on('afterrender',function() {
             this.getTree();
-        })
-        
+        });
+        this.on('show',function() {
+			console.info('SHOW WAS CALLED!!!!');
+			this.setRawValue('');
+
+			// quick and dirty, but it work... a better solution must be founded!!!!
+			//   bug-> first run do overwrite the value, because tree isn't completed loaded...
+			this.expand();
+			this.collapse();
+		});
     },
 	
 	onTriggerClick: function() {
@@ -52,7 +60,7 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 	setValue: function (v) {
 		console.debug('SETVALUE was CALLED!   V: '+v   +'   ID: ' + this.id  + ' - Tree: ' + this.getTree().id);
 		this.value=v;
-		//this.setValueToTree();
+		this.setValueToTree();
 	},
 	
     getValue: function() {
@@ -66,6 +74,8 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 		}
     },
 	setValueToTree: function () {
+		console.debug('setValueToTree was CALLED!  ');
+		
 		// check for tree ist exist
 		if (!this.treePanel) return false;
 
@@ -107,6 +117,8 @@ Ext.ux.form.TreeCombo = new Ext.extend(Ext.form.TriggerField, {
 	
 	
 	getValueFromTree: function () {
+		console.debug('getValueFromTree was CALLED!  ');
+		
 		this.ArrVal= new Array();
 		this.ArrDesc= new Array();
 
