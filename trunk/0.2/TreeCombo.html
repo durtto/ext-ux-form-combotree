@@ -12,7 +12,6 @@
 	
 		Ext.ns('EX');
 
-
 		// --------------------
 		
 		EX.Proxy = new Ext.data.HttpProxy({
@@ -78,6 +77,14 @@
 				
 			],
 			sm: new Ext.grid.RowSelectionModel({}),
+			bbar:[
+				new Ext.Button({
+					text:'refresh Store',
+					handler: function() {
+						EX.Store.reload();
+					}
+				})
+			],
 			autoHeight:true,
 			autoWidth:true
 		});
@@ -85,16 +92,21 @@
 	
 	// ----------------------------
 	
-/*     
+    
 
 		EX.treeCombo = new Ext.ux.form.TreeCombo({
-			width: 220,
-			listWidth:220,
-			value:'E2',
-			//lazyInit:false,
-			url:'tree.json.php'
+			id:'TreeComboForm',
+			width: 300,
+			listWidth:350,
+			lazyInit:false,
+			loader: new Ext.tree.TreeLoader({
+                preloadChildren: false,
+				url:'tree.json',
+				requestMethod:'GET'
+            }),
+            root: new Ext.tree.AsyncTreeNode({	}),
+            value:'E3_1'
 		});
-		console.debug(EX.treeCombo)
    
 
 		EX.Form= new Ext.form.FormPanel({
@@ -120,7 +132,7 @@
 			]
 		});
 		
-*/	
+	
 	
 	});
 	</script>

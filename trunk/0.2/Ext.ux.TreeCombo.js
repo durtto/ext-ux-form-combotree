@@ -20,12 +20,12 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
             }
         }, this);
         this.on('show',function() {
-			console.info('SHOW WAS CALLED!!!!');
 			this.setRawValue('');
 			this.getTree();
 			
 			if (this.treePanel.loader.isLoading()) {
 				this.treePanel.loader.on('load',function(c,n) {
+					n.expandChildNodes(true);
 					if (this.setValueToTree()) this.getValueFromTree();
 				},this);
 			} else {
@@ -59,15 +59,11 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 		this.setValueToTree();
 	},
 	setValue: function (v) {
-		console.debug('SETVALUE was CALLED!   V: '+v   +'   ID: ' + this.id  + ' - Tree: ' + this.getTree().id);
 		this.value=v;
 		this.setValueToTree();
 	},
 	
     getValue: function() {
-		console.debug('GETVALUE was CALLED!   ID: ' + this.id + ' - Value: ' + this.value);
-		//if (this.treePanel) this.getValueFromTree();
-		
         if (!this.value) { 
 			return '';
 		} else {
@@ -75,8 +71,6 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 		}
     },
 	setValueToTree: function () {
-		console.debug('setValueToTree was CALLED!  ');
-		
 		// check for tree ist exist
 		if (!this.treePanel) return false;
 
@@ -117,8 +111,6 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 	
 	
 	getValueFromTree: function () {
-		console.debug('getValueFromTree was CALLED!  ');
-		
 		this.ArrVal= new Array();
 		this.ArrDesc= new Array();
 
