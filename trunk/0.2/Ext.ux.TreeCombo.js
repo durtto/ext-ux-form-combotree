@@ -1,4 +1,3 @@
-// Version 1.0 - derzeit nur im EditorGridPanel voll nutzbar
 
 Ext.ns('Ext.ux','Ext.ux.form');
 
