@@ -1,0 +1,83 @@
+[
+   {
+	  "text":"Ordner 1",
+      "leaf":false,
+	  "children":[
+		{
+			"text":"Element 1.1",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"text":"Element 1.2",
+			"leaf":true,
+			"checked":false
+		}
+	  ]
+   },
+   {
+      "text":"Element 2",
+      "leaf":true,
+	  "checked":false
+   },{
+	  "text":"Ordner 3",
+      "leaf":false,
+	  "children":[
+		{
+			"text":"Element 3.1",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"text":"Element 3.2",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"text":"Element 3.3",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"text":"Element 3.4",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"text":"Element 3.5",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"text":"Element 3.6",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"text":"Element 3.7",
+			"leaf":true,
+			"checked":false
+		},
+		{
+			"text":"Ordner 3.8",
+			"leaf":false,
+			"children":[
+				{
+					"text":"Element 3.8.1",
+					"leaf":true,
+					"checked":false
+				},{
+					"text":"Element 3.8.2",
+					"leaf":true,
+					"checked":false
+				},{
+					"text":"Element 3.8.3",
+					"leaf":true,
+					"checked":false
+				}
+			
+			]
+		}
+	  ]
+   }
+]
