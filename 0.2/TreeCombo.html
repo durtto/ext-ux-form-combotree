@@ -94,21 +94,6 @@
 	
     
 
-		EX.treeCombo = new Ext.ux.form.TreeCombo({
-			id:'TreeComboForm',
-			width: 300,
-			listWidth:350,
-			lazyInit:false,
-			loader: new Ext.tree.TreeLoader({
-                preloadChildren: false,
-				url:'tree.json',
-				requestMethod:'GET'
-            }),
-            root: new Ext.tree.AsyncTreeNode({	}),
-            value:'E3_1'
-		});
-   
-
 		EX.Form= new Ext.form.FormPanel({
 			autoWidth:true,
 			autoHeight: true,
@@ -118,12 +103,30 @@
 					fieldLabel:'TextField',
 					allowBlank: true
 				}),
-				EX.treeCombo
+				new Ext.ux.form.TreeCombo({
+					id:'TreeComboForm',
+					width: 300,
+					listWidth:350,
+					lazyInit:false,
+					loader: new Ext.tree.TreeLoader({
+						preloadChildren: false,
+						url:'tree.json',
+						requestMethod:'GET'
+					}),
+					root: new Ext.tree.AsyncTreeNode({	}),
+					value:'E3_1'
+				}),
+				new Ext.form.Hidden({
+					name:'TreeVal',
+					id:'TreeVal',
+					value:''
+				})
 			],
 			bbar: [
 				{
 					text:'submit',
 					handler: function() {
+						Ext.getCmp('TreeVal').setValue(Ext.getCmp('TreeComboForm').getValue());
 						EX.Form.getForm().submit({
 							url: 'submit.php'
 						});
