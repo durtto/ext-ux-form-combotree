@@ -26,7 +26,7 @@
 		EX.Store = new Ext.data.JsonStore({
 			root: 'DS',
 			proxy:EX.Proxy,
-			fields: ['ID','Val1','Val2'],
+			fields: ['ID','Val1','Val2','Val3'],
 			totalProperty: 'total',
 			sccessProperty: 'success',
 			idProperty: 'ID',
@@ -46,26 +46,43 @@
 			columns: [
 				{
 					header: 'ID', 
-					width: 100, 
+					width: 40, 
 					dataIndex: 'ID', 
 					sortable: true
 				},{
 					header: 'Val1', 
-					width: 300, 
+					width: 100, 
 					dataIndex: 'Val1', 
 					sortable: true,
 					editor:new Ext.form.TextField({
 						maxLength:50
 					})
 				},{
-					header: 'Val2', 
-					width: 300, 
+					header: 'Val2 (multiple checked value', 
+					width: 266, 
 					dataIndex: 'Val2', 
 					sortable: true,
 					editor: new Ext.ux.form.TreeCombo({
 						width: 100,
 						listWidth:220,
 						lazyInit:false,
+						loader: new Ext.tree.TreeLoader({
+		                    preloadChildren: false,
+							url:'tree.json',
+							requestMethod:'GET'
+		                }),
+		                root: new Ext.tree.AsyncTreeNode({	})
+					})
+				},{
+					header: 'Val3 (only single check value allow)', 
+					width: 266, 
+					dataIndex: 'Val3', 
+					sortable: true,
+					editor: new Ext.ux.form.TreeCombo({
+						width: 100,
+						listWidth:220,
+						lazyInit:false,
+						singleSelect:true,  // <<<<<<<--------
 						loader: new Ext.tree.TreeLoader({
 		                    preloadChildren: false,
 							url:'tree.json',
