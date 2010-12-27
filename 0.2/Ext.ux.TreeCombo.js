@@ -13,6 +13,10 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 		if (!this.sepperator) {
                 this.sepperator=','
         }
+		
+		if (!Ext.isDefined(this.singleCheck)) {
+            this.singleCheck=false;
+        } 
         
         Ext.ux.form.TreeCombo.superclass.initComponent.call(this);
         this.on('specialkey', function(f, e){
@@ -88,6 +92,8 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 		// search all tree-children and check it, when value in this.value
 		node.cascade(function (n) {
 			var nodeCompareVal='';
+			var nodeCheckState=false;  // default the note will be unchecked
+			
 			if (Ext.isDefined(n.attributes.value)) {
 				// in node-element a value-property was used
 				nodeCompareVal=String.trim(n.attributes.value);
@@ -95,15 +101,17 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 				// in node-element can't find a value-property, for compare with this.value will be use node-element.text
 				nodeCompareVal=String.trim(n.attributes.text);
 			}
-			// uncheck node
-			n.getUI().toggleCheck(false);
 			
 			Ext.each(arrVal,function(arrVal_Item) {
 				if (String.trim(arrVal_Item) == nodeCompareVal) {
-					// check node
-					n.getUI().toggleCheck(true);
+					// set variable "nodeCheckState" to check node
+					nodeCheckState=true;
 				}
 			},this);
+			
+			// when state (of node) is other as variable "nodeCheckState", then set new value to node!
+			if (n.getUI().isChecked()!=nodeCheckState) n.getUI().toggleCheck(nodeCheckState);
+			
 		},this);
 		
 		return true;
@@ -161,6 +169,7 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
                     hide: this.onTreeHide,
                     show: this.onTreeShow,
                     click: this.onTreeNodeClick,
+					checkchange: this.onTreeCheckChange,
                     expandnode: this.onExpandOrCollapseNode,
                     collapsenode: this.onExpandOrCollapseNode,
                     resize: this.onTreeResize,
@@ -217,11 +226,31 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 
     onTreeNodeClick: function(node, e) {
 /*
+ 		console.debug(this.singleSelect);
         this.setRawValue(node.text);
         this.value = node.id;
 		//console.debug(node);
         this.fireEvent('select', this, node);
         this.collapse();
 */
-    }
+    },
+	
+	onTreeCheckChange:function (node,value) {
+		if (this.singleCheck) {
+			// temporary disable event-listeners on treePanel-object 
+			this.treePanel.suspendEvents(false);
+
+			// disable all tree-checkboxes, there checked at the moment			
+			Ext.each(this.treePanel.getChecked(),function(arrVal) { 
+				arrVal.getUI().toggleCheck(false);
+			} );
+			
+			// re-check the selected node on treePanel-object
+			node.getUI().toggleCheck(true);
+			
+			// activate event-listeners on treePanel-object
+			this.treePanel.resumeEvents();
+		}
+	}
+	
 });
