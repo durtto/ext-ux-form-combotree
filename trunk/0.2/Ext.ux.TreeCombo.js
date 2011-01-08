@@ -251,6 +251,43 @@ Ext.ux.form.TreeCombo = Ext.extend(Ext.form.TriggerField, {
 			// activate event-listeners on treePanel-object
 			this.treePanel.resumeEvents();
 		}
+	},
+	
+	getRendererFunction: function (value) {
+		var out=new Array();
+		
+		//console.info(value);
+		//console.debug(this.getEditor().field.loader);
+		if (String.trim(value)!="") {
+			var TreePanel = this.getEditor().field.getTree();
+			var Sepperator = this.getEditor().field.sepperator;
+			
+				
+			// split this.value to array with sepperate value-elements
+			var arrVal=new Array();
+			try {
+				arrVal = value.split(Sepperator);
+			} catch (e) {};
+				
+			TreePanel.expandAll();			
+			TreePanel.getRootNode().cascade(function (n) {
+				Ext.each(arrVal,function(arrVal_Item) {
+					if (String.trim(arrVal_Item) == n.attributes.value) {
+						out.push(n.attributes.text);
+					}
+				},this);
+			});
+					
+			//console.debug("OUT",out);		
+			//console.debug("TreePanel",TreePanel);
+		}
+		
+		if (out.length!=0) {
+			return out.join(Sepperator + ' ');	
+		} else {
+			return value;
+		}
+		
 	}
 	
 });
