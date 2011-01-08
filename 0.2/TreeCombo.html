@@ -12,9 +12,13 @@
 	
 		Ext.ns('EX');
 
-		// --------------------
+
+
+
+		// -----------EXAMPLE 1---------------
+		// EditorGridPanel with two different TreeComboBoxes (without renderer)
 		
-		EX.Proxy = new Ext.data.HttpProxy({
+		EX.Proxy1 = new Ext.data.HttpProxy({
 			api: {
 				read : 'AJAX_select.json.php',
 				create : 'AJAX_insert.json.php',
@@ -23,15 +27,15 @@
 			}
 		});
 		
-		EX.Store = new Ext.data.JsonStore({
+		EX.Store1 = new Ext.data.JsonStore({
 			root: 'DS',
-			proxy:EX.Proxy,
+			proxy:EX.Proxy1,
 			fields: ['ID','Val1','Val2','Val3'],
 			totalProperty: 'total',
 			sccessProperty: 'success',
 			idProperty: 'ID',
 			writer: new Ext.data.JsonWriter({
-				proxy: Ext.Proxy,	    
+				proxy: Ext.Proxy1,	    
 				encode: true,
 				writeAllFields: false
 			}),
@@ -39,10 +43,10 @@
 		}); 
 
 		
-		EX.Grid = new Ext.grid.EditorGridPanel({
+		EX.Grid1 = new Ext.grid.EditorGridPanel({
 			region: 'center',
 			renderTo: Ext.get('DIV1'),
-			store: EX.Store,
+			store: EX.Store1,
 			columns: [
 				{
 					header: 'ID', 
@@ -58,7 +62,7 @@
 						maxLength:50
 					})
 				},{
-					header: 'Val2 (multiple checked value', 
+					header: 'Val2 (multiple checked value)', 
 					width: 266, 
 					dataIndex: 'Val2', 
 					sortable: true,
@@ -82,7 +86,7 @@
 						width: 100,
 						listWidth:220,
 						lazyInit:false,
-						singleSelect:true,  // <<<<<<<--------
+						singleCheck:true,  // <<<<<<<--------
 						loader: new Ext.tree.TreeLoader({
 		                    preloadChildren: false,
 							url:'tree.json',
@@ -98,7 +102,7 @@
 				new Ext.Button({
 					text:'refresh Store',
 					handler: function() {
-						EX.Store.reload();
+						EX.Store1.reload();
 					}
 				})
 			],
@@ -107,14 +111,96 @@
 		});
 	
 	
-	// ----------------------------
-	
-    
 
+
+		// -----------EXAMPLE 2---------------
+		// EditorGridPanel with Renderer
+		EX.Proxy2 = new Ext.data.HttpProxy({
+			api: {
+				read : 'AJAX_select.json.php',
+				create : 'AJAX_insert.json.php',
+				update: 'AJAX_update.json.php',
+				destroy: 'AJAX_delete.json.php'
+			}
+		});
+		
+		EX.Store2 = new Ext.data.JsonStore({
+			root: 'DS',
+			proxy:EX.Proxy2,
+			fields: ['ID','Val1','Val2','Val3'],
+			totalProperty: 'total',
+			sccessProperty: 'success',
+			idProperty: 'ID',
+			writer: new Ext.data.JsonWriter({
+				proxy: Ext.Proxy2,	    
+				encode: true,
+				writeAllFields: false
+			}),
+			autoSave: true, autoLoad:true
+		});
+		
+		EX.TC2=new Ext.ux.form.TreeCombo({
+			width: 100,
+			listWidth:220,
+			lazyInit:false,
+			loader: new Ext.tree.TreeLoader({
+                preloadChildren: true,
+				url:'tree.json',
+				requestMethod:'GET'
+            }),
+            root: new Ext.tree.AsyncTreeNode({	})
+		});
+		 
+		EX.Grid2 = new Ext.grid.EditorGridPanel({
+			region: 'center',
+			renderTo: Ext.get('DIV2'),
+			store: EX.Store2,
+			columns: [
+				{
+					header: 'ID', 
+					width: 40, 
+					dataIndex: 'ID', 
+					sortable: true
+				},{
+					header: 'Value with renderer', 
+					width: 266, 
+					dataIndex: 'Val2', 
+					sortable: true,
+					editor: EX.TC2,
+					renderer:EX.TC2.getRendererFunction
+				}
+				
+			],
+			sm: new Ext.grid.RowSelectionModel({}),
+			bbar:[
+				new Ext.Button({
+					text:'refresh Store',
+					handler: function() {
+						EX.Store2.reload();
+					}
+				})
+			],
+			autoHeight:true,
+			autoWidth:true,
+			listeners: {
+				afterrender: function(){
+					new Ext.util.DelayedTask(function(){
+						EX.Grid2.getStore().reload();
+					}).delay(750);
+				}
+			}
+		});
+	
+	
+	
+	
+		// ---------EXAMPLE 3-------------------
+		// TreeComboBox in Formpanel (with submitting node-id)
+		
 		EX.Form= new Ext.form.FormPanel({
 			autoWidth:true,
 			autoHeight: true,
-			renderTo: Ext.get('DIV2'),
+			renderTo: Ext.get('DIV3'),
 			items: [
 				new Ext.form.TextField({
 					fieldLabel:'TextField',
@@ -159,12 +245,17 @@
 	
 </head>
 <body style='margin:7mm'>
-	<h1>ComboTree in GridEditorPanel</h1>
+	<h1 style="font-size:25px">Example-Page for Ext.ux.TreeCombo</h1>
+	<p>Note: Use <a href="http://getfirebug.com/" target="_blank">Firebug-Extension</a> to show transfered data's!</p>
+		
+
+	<h2 style="margin-top:1cm">ComboTree in GridEditorPanel</h2>
 	<div id='DIV1' style='width:720px;'> </div>
-	<hr style='margin-top:1cm; margin-bottom:1cm' />
-	<h1>ComboTree in FormPanel</h1>
+	
+	<h2 style="margin-top:1cm">ComboTree in GridEditorPanel with Renderer</h2>
 	<div id='DIV2' style='width:720px;'> </div>
-	<hr>
+
+	<h2 style="margin-top:1cm">ComboTree in FormPanel</h2>
 	<div id='DIV3' style='width:720px;'> </div>
 </body>
 </html>
