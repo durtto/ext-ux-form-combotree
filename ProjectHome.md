@@ -1,0 +1,1 @@
+Ext.ux.form.comboTree is a class for input combobox with selection-tree
